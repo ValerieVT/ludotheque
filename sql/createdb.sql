@@ -1,1 +1,1 @@
-CREATE DATABASE ludotheque SET utf8mb4 COLLATE utf8mb4_unicode_ci
+CREATE DATABASE ludotheque CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
