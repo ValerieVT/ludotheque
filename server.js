@@ -130,6 +130,35 @@ app.get('/api/jeux/:id', (req, res) => {
   });
 });
 
+app.put('/api/jeux/:id', (req, res) => {
+  pool.query(`
+  UPDATE game SET ? 
+  WHERE id=?
+  `, [req.body, req.params.id], (err) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else {
+      return pool.query('SELECT * FROM game WHERE id = ?', req.params.id, (err2, results) => {
+        if (err2) {
+          return res.status(500).json({
+            error: err2.message,
+            sql: err2.sql,
+          });
+        }
+        const modifiedTrack = results[0];
+        const host = req.get('host');
+        const location = `http://${host}${req.url}/${modifiedTrack.id}`;
+        return res
+          .status(201)
+          .set('Location', location)
+          .json(modifiedTrack);
+      });
+    }
+  });
+});
+
 app.listen(port, (err, res) => {
   if (err) {
     res.status(500).json({
