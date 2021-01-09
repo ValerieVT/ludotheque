@@ -1,3 +1,10 @@
 ### GET all games
 GET http://localhost:5000/api/games
 
+### GET all games : collaborative
+GET http://localhost:5000/api/games/collaborative
+
+### GET all games : asymetric
+GET http://localhost:5000/api/games/asymetric
+
+
