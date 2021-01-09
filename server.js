@@ -118,22 +118,14 @@ app.get('/api/jeux/adresse', (req, res) => {
   });
 });
 
-app.put('/api/jeux/:id', (req, res) => {
-  pool.query('UPDATE game SET ? WHERE id=?', [req.body, req.params.id], (err, results) => {
+app.get('/api/jeux/:id', (req, res) => {
+  pool.query('SELECT * FROM game WHERE id=?', [req.params.id], (err, results) => {
     if (err) {
       res.status(500).json({
         error: err.message,
       });
     } else {
-      pool.query('SELECT * FROM game WHERE id=?', req.params.id, (err2, results2) => {
-        if (err2) {
-          res.status(500).json({
-            error: err.message,
-          });
-        } else {
-          res.json(results2[0]);
-        }
-      });
+      res.json(results[0]);
     }
   });
 });
