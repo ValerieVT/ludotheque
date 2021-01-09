@@ -33,3 +33,6 @@ PUT http://localhost:5000/api/jeux/1
 
 ### GET all themes
 GET http://localhost:5000/api/themes
+
+### POST 1 theme
+GET http://localhost:5000/api/themes

@@ -171,6 +171,44 @@ app.get('/api/themes', (req, res) => {
   });
 });
 
+app.get('/api/themes/:name', (req, res) => {
+  pool.query('SELECT * FROM theme WHERE name', (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+app.post('/api/themes', (req, res) => {
+  pool.query('INSERT INTO theme (name) VALUES (?)', [req.body.name], (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else {
+      return pool.query('SELECT * FROM theme WHERE id = ?', results.insertId, (err2, records) => {
+        if (err2) {
+          return res.status(500).json({
+            error: err2.message,
+            sql: err2.sql,
+          });
+        }
+        const insertedTrack = records[0];
+        const host = req.get('host');
+        const location = `http://${host}${req.url}/${insertedTrack.id}`;
+        return res
+          .status(201)
+          .set('Location', location)
+          .json(insertedTrack);
+      });
+    };
+  });
+});
+
 app.listen(port, (err, res) => {
   if (err) {
     res.status(500).json({
