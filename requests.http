@@ -1,10 +1,20 @@
 ### GET all games
-GET http://localhost:5000/api/games
+GET http://localhost:5000/api/jeux
 
 ### GET all games : collaborative
-GET http://localhost:5000/api/games/collaborative
+GET http://localhost:5000/api/jeux/collaboratifs
 
 ### GET all games : asymetric
-GET http://localhost:5000/api/games/asymetric
+GET http://localhost:5000/api/jeux/asymetriques
 
+### GET all games that necessites generalknowledge
+GET http://localhost:5000/api/jeux/culture-generale
 
+### GET all games that necessites chance
+GET http://localhost:5000/api/jeux/chance
+
+### GET all games that necessites reflexion
+GET http://localhost:5000/api/jeux/reflexion
+
+### GET all games that necessites skill
+GET http://localhost:5000/api/jeux/adresse

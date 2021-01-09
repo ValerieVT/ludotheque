@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/api/games', (req, res) => {
+app.get('/api/jeux', (req, res) => {
   pool.query('SELECT * FROM game', (err, results) => {
     if (err) {
       res.status(500).json({
@@ -22,7 +22,7 @@ app.get('/api/games', (req, res) => {
   });
 });
 
-app.get('/api/games/collaborative', (req, res) => {
+app.get('/api/jeux/collaboratifs', (req, res) => {
   pool.query('SELECT * FROM game WHERE collaborative=1', (err, results) => {
     if (err) {
       res.status(500).json({
@@ -34,7 +34,7 @@ app.get('/api/games/collaborative', (req, res) => {
   });
 });
 
-app.get('/api/games/asymetric', (req, res) => {
+app.get('/api/jeux/asymetriques', (req, res) => {
   pool.query('SELECT * FROM game WHERE asymetric=1', (err, results) => {
     if (err) {
       res.status(500).json({
@@ -45,6 +45,55 @@ app.get('/api/games/asymetric', (req, res) => {
     }
   });
 });
+
+app.get('/api/jeux/culture-generale', (req, res) => {
+  pool.query('SELECT * FROM game WHERE generalknowledge IS NOT NULL', (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+app.get('/api/jeux/chance', (req, res) => {
+  pool.query('SELECT * FROM game WHERE chance IS NOT NULL', (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+app.get('/api/jeux/reflexion', (req, res) => {
+  pool.query('SELECT * FROM game WHERE reflexion IS NOT NULL', (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+app.get('/api/jeux/adresse', (req, res) => {
+  pool.query('SELECT * FROM game WHERE skill IS NOT NULL', (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 
 app.listen(port, (err, res) => {
   if (err) {
