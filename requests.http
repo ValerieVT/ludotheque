@@ -24,3 +24,7 @@ GET http://localhost:5000/api/jeux/reflexion
 
 ### GET games that necessites skill
 GET http://localhost:5000/api/jeux/adresse
+
+### PUT modify 1 game
+PUT http://localhost:5000/api/jeux/1
+
