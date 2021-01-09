@@ -22,6 +22,30 @@ app.get('/api/jeux', (req, res) => {
   });
 });
 
+app.get('/api/jeux/rapides', (req, res) => {
+  pool.query('SELECT * FROM game WHERE duration_min_in_minuts<16', (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+app.get('/api/jeux/longs', (req, res) => {
+  pool.query('SELECT * FROM game WHERE duration_min_in_minuts>60', (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 app.get('/api/jeux/collaboratifs', (req, res) => {
   pool.query('SELECT * FROM game WHERE collaborative=1', (err, results) => {
     if (err) {
@@ -93,7 +117,6 @@ app.get('/api/jeux/adresse', (req, res) => {
     }
   });
 });
-
 
 app.listen(port, (err, res) => {
   if (err) {
