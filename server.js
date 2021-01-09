@@ -1,15 +1,15 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const connection = require('./connection');
+const pool = require('./pool');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 const app = express();
 
 dotenv.config();
 app.use(express.json());
 
 app.get('/api/ludotheque/', (req, res) => {
-  connection.query('SELECT * FROM games', (err, results) => {
+  pool.query('SELECT * FROM games', (err, results) => {
     if (err) {
       res.status(500).json({
         error: err.message,
