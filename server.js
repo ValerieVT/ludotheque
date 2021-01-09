@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 app.get('/api/jeux', (req, res) => {
-  pool.query('SELECT * FROM game', (err, results) => {
+  pool.query('SELECT * FROM game ORDER BY name ASC', (err, results) => {
     if (err) {
       res.status(500).json({
         error: err.message,
@@ -155,6 +155,18 @@ app.put('/api/jeux/:id', (req, res) => {
           .set('Location', location)
           .json(modifiedTrack);
       });
+    }
+  });
+});
+
+app.get('/api/themes', (req, res) => {
+  pool.query('SELECT * FROM theme ORDER BY name ASC', (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else {
+      res.json(results);
     }
   });
 });

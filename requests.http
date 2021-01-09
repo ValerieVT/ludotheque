@@ -30,3 +30,6 @@ GET http://localhost:5000/api/jeux/1
 
 ### PUT  modify 1 game from its id
 PUT http://localhost:5000/api/jeux/1
+
+### GET all themes
+GET http://localhost:5000/api/themes
