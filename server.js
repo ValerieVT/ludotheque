@@ -3,17 +3,13 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const jeux = require('./routes/jeux');
-const themes = require('./routes/themes');
-
 const port = process.env.PORT || 5000;
 const app = express();
+const api = require('./routes');
 
 app.use(express.json());
 
-app.use('/api/jeux', jeux);
-
-app.use('/api/themes', themes);
+app.use('/api', api);
 
 app.listen(port, (err, res) => {
   if (err) {

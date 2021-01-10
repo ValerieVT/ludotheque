@@ -165,4 +165,30 @@ router.delete('/:id', (req, res) => {
   });
 });
 
+// router.post('/api/jeux', (req, res) => {
+//   pool.query('INSERT INTO game VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.name, req.body.summary, req.body.duration_min_in_minuts, req.body.player_nbmin, req.body.player_nbmax, req.body.player_agemin, req.body.player_agemax, req.body.collaborative, req.body.asymetric, req.body.gamerule_difficulty, req.body.generalknowledge, req.body.chance, req.body.reflexion, req.body.skill], (err, results) => {
+//     if (err) {
+//       res.status(500).json({
+//         error: err.message,
+//       });
+//     } else {
+//       return pool.query('SELECT * FROM game WHERE id = ?', results.insertId, (err2, records) => {
+//         if (err2) {
+//           return res.status(500).json({
+//             error: err2.message,
+//             sql: err2.sql,
+//           });
+//         }
+//         const insertedTrack = records[0];
+//         const host = req.get('host');
+//         const location = `http://${host}${req.url}/${insertedTrack.id}`;
+//         return res
+//           .status(201)
+//           .set('Location', location)
+//           .json(insertedTrack);
+//       });
+//     }
+//   });
+// });
+
 module.exports = router;
