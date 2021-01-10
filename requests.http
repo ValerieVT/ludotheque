@@ -26,10 +26,16 @@ GET http://localhost:5000/api/jeux/reflexion
 GET http://localhost:5000/api/jeux/adresse
 
 ### GET 1 game
-GET http://localhost:5000/api/jeux/1
+GET http://localhost:5000/api/jeux/292
 
 ### PUT  modify 1 game from its id
 PUT http://localhost:5000/api/jeux/1
+
+### DELETE 1 game
+DELETE http://localhost:5000/api/jeux/294
+
+### POST 1 game
+GET http://localhost:5000/api/jeux
 
 ### GET all themes
 GET http://localhost:5000/api/themes
