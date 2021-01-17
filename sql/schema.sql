@@ -21,8 +21,8 @@ REFERENCES game(id)
 );
 CREATE TABLE IF NOT EXISTS picture (
 `id` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-`imageext` TEXT NULL,
-`imageint` TEXT  NOT NULL,
+`image` TEXT NOT NULL,
+`type` ENUM('int','ext') NULL,
 `game_id` INT NOT NULL,
 CONSTRAINT fk_game_picture
 FOREIGN KEY (game_id)
@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS theme (
 `name` VARCHAR(30) UNIQUE NOT NULL
 );
 CREATE TABLE IF NOT EXISTS game_theme (
-`id` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `game_id` INTEGER NOT NULL,
 `theme_id` INTEGER NOT NULL,
+PRIMARY KEY (game_id, theme_id),
 CONSTRAINT fk_game_game_theme
 FOREIGN KEY (game_id)
 REFERENCES game(id),
