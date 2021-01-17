@@ -86,6 +86,6 @@ INSERT INTO game (
 ("vendredi","Survivre sur son île déserte... avec des cartes.",25,1,1,NULL,NULL,0,0,2,NULL,2,3,NULL),
 ("Wasabi","Jeu de dés (?)",20,2,6,NULL,NULL,0,0,1,NULL,NULL,NULL,NULL),
 ("Zombies!!!","Inspiré du film : attaquer les zombies dans la ville et atteindre l'hélicoptère.",60,2,6,NULL,NULL,0,0,2,NULL,3,2,NULL),
-("Couadsous","Un jeu à s’en retourner le cerveau ! Les meilleurs mémoires gagneront.",10,2,4,NULL,NULL,0,0,1,NULL,1,3,NULL)
+("Couadsous","Un jeu à s’en retourner le cerveau ! Les meilleures mémoires gagneront.",10,2,4,NULL,NULL,0,0,1,NULL,1,3,NULL)
 ;
 INSERT INTO theme (`name`) VALUES ("espace"), ("nature"), ("animaux"), ("Halloween"), ("Asie"), ("histoire"), ("Moyen-âge");
