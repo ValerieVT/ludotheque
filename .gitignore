@@ -1,5 +1,4 @@
 .env
 node_modules
 games.csv
-sql/filldb.sql
 excalidraw_projet_games.json
