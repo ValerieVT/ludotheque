@@ -154,31 +154,26 @@ router.put('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  pool.query('INSERT INTO game SET ?', [req.body], (err, status) => {
+  pool.query('INSERT INTO game SET ?', [req.body], (err, results) => {
     if (err) {
       return res.status(500).json({
         error: err.message,
       });
     }
-    const insertedGame = {
-      id: status.insertId,
-      name: req.body.name,
-      summary: req.body.summary,
-      duration_min_in_minuts: req.body.duration_min_in_minuts,
-      player_nbmin: req.body.player_nbmin,
-      player_nbmax: req.body.player_nbmax,
-      player_agemin: req.body.player_agemin,
-      player_agemax: req.body.player_agemax,
-      collaborative: req.body.collaborative,
-      asymetric: req.body.asymetric,
-      gamerule_difficulty: req.body.gamerule_difficulty,
-      generalknowledge: req.body.generalknowledge,
-      chance: req.body.chance,
-      reflexion: req.body.reflexion,
-      skill: req.body.skill,
-      game_id: req.body.game_id,
-    };
-    return res.status(201).json(insertedGame);
+    return pool.query('SELECT * FROM game WHERE id = ?', results.insertId, (err2, results2) => {
+      if (err2) {
+        return res.status(500).json({
+          error: err2.message,
+          sql: err2.sql,
+        });
+      }
+      const host = req.get('host');
+      const location = `http://${host}/api/jeux/${results.insertId}`;
+      return res
+        .status(201)
+        .set('Location', location)
+        .json(results2);
+    });
   });
 });
 
