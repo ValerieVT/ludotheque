@@ -153,6 +153,35 @@ router.put('/:id', (req, res) => {
   });
 });
 
+router.post('/', (req, res) => {
+  pool.query('INSERT INTO game SET ?', [req.body], (err, status) => {
+    if (err) {
+      return res.status(500).json({
+        error: err.message,
+      });
+    }
+    const insertedGame = {
+      id: status.insertId,
+      name: req.body.name,
+      summary: req.body.summary,
+      duration_min_in_minuts: req.body.duration_min_in_minuts,
+      player_nbmin: req.body.player_nbmin,
+      player_nbmax: req.body.player_nbmax,
+      player_agemin: req.body.player_agemin,
+      player_agemax: req.body.player_agemax,
+      collaborative: req.body.collaborative,
+      asymetric: req.body.asymetric,
+      gamerule_difficulty: req.body.gamerule_difficulty,
+      generalknowledge: req.body.generalknowledge,
+      chance: req.body.chance,
+      reflexion: req.body.reflexion,
+      skill: req.body.skill,
+      game_id: req.body.game_id,
+    };
+    return res.status(201).json(insertedGame);
+  });
+});
+
 router.delete('/:id', (req, res) => {
   pool.query('DELETE FROM game WHERE id=?', req.params.id, (err, results) => {
     if (err) {
