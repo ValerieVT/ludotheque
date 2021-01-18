@@ -4,6 +4,8 @@ const router = express.Router();
 
 const pool = require('../pool');
 
+const urlApiJeux = '/api/jeux/';
+
 router.get('/', (req, res) => {
   pool.query('SELECT * FROM game', (err, results) => {
     if (err) {
@@ -133,23 +135,22 @@ router.put('/:id', (req, res) => {
       res.status(500).json({
         error: err.message,
       });
-    } else {
-      return pool.query('SELECT * FROM game WHERE id = ?', req.params.id, (err2, results) => {
-        if (err2) {
-          return res.status(500).json({
-            error: err2.message,
-            sql: err2.sql,
-          });
-        }
-        const modifiedTrack = results[0];
-        const host = req.get('host');
-        const location = `http://${host}${req.url}/${modifiedTrack.id}`;
-        return res
-          .status(201)
-          .set('Location', location)
-          .json(modifiedTrack);
-      });
     }
+    return pool.query('SELECT * FROM game WHERE id = ?', req.params.id, (err2, results) => {
+      if (err2) {
+        return res.status(500).json({
+          error: err2.message,
+          sql: err2.sql,
+        });
+      }
+      const modifiedTrack = results[0];
+      const host = req.get('host');
+      const location = `http://${host}${urlApiJeux}${modifiedTrack.id}`;
+      return res
+        .status(201)
+        .set('Location', location)
+        .json(modifiedTrack);
+    });
   });
 });
 
@@ -168,7 +169,7 @@ router.post('/', (req, res) => {
         });
       }
       const host = req.get('host');
-      const location = `http://${host}/api/jeux/${results.insertId}`;
+      const location = `http://${host}${urlApiJeux}${results.insertId}`;
       return res
         .status(201)
         .set('Location', location)
@@ -180,12 +181,11 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req, res) => {
   pool.query('DELETE FROM game WHERE id=?', req.params.id, (err, results) => {
     if (err) {
-      res.status(500).json({
+      return res.status(500).json({
         error: err.message,
       });
-    } else {
-      res.status(204);
     }
+    return res.status(204);
   });
 });
 
