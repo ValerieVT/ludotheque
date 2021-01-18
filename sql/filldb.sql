@@ -89,3 +89,4 @@ INSERT INTO game (
 ("Couadsous","Un jeu à s’en retourner le cerveau ! Les meilleures mémoires gagneront.",10,2,4,NULL,NULL,0,0,1,NULL,1,3,NULL)
 ;
 INSERT INTO theme (`name`) VALUES ("espace"), ("nature"), ("animaux"), ("Halloween"), ("Asie"), ("histoire"), ("Moyen-âge");
+INSERT INTO game_theme (`game_id`,`theme_id`) VALUES ("10","7"),("11","7"),("11","6"),("12","6"),("13","3"),("14","6");
