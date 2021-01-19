@@ -18,6 +18,80 @@ router.get('/', (req, res) => {
   });
 });
 
+// route de filtrage
+router.get('/search', (req, res) => {
+  let sql = 'SELECT * FROM game WHERE 1=1';
+  const sqlValues = [];
+  if (req.query.name) {
+    const searchByName = `%${req.query.name}%`;
+    sql += ' AND name LIKE ?';
+    sqlValues.push(searchByName);
+  }
+  if (req.query.collaborative) {
+    const researchByCoop = req.query.collaborative;
+    sql += ' AND collaborative = ?';
+    sqlValues.push(researchByCoop);
+  }
+  if (req.query.asymetric) {
+    const researchByAsymetric = req.query.asymetric;
+    sql += ' AND asymetric = ?';
+    sqlValues.push(researchByAsymetric);
+  }
+  if (req.query.duration_min_in_min) {
+    const researchByDuration = req.query.duration_min_in_min;
+    sql += ' AND duration_min_in_min = ?';
+    sqlValues.push(researchByDuration);
+  }
+  if (req.query.player_nbmin) {
+    const researchByPlayerMin = req.query.player_nbmin;
+    sql += ' AND player_nbmin = ?';
+    sqlValues.push(researchByPlayerMin);
+  }
+  if (req.query.player_nbmax) {
+    const researchByPlayerMax = req.query.player_nbmax;
+    sql += ' AND player_nbmax = ?';
+    sqlValues.push(researchByPlayerMax);
+  }
+  if (req.query.gamerule_difficulty) {
+    const researchByGameRule = req.query.gamerule_difficulty;
+    sql += ' AND gamerule_difficulty = ?';
+    sqlValues.push(researchByGameRule);
+  }
+  if (req.query.generalknowledge) {
+    const researchByGenKnowledge = req.query.generalknowledge;
+    sql += ' AND generalknowledge = ?';
+    sqlValues.push(researchByGenKnowledge);
+  }
+  if (req.query.chance) {
+    const researchByChance = req.query.chance;
+    sql += ' AND chance = ?';
+    sqlValues.push(researchByChance);
+  }
+  if (req.query.reflection) {
+    const researchByReflection = req.query.reflection;
+    sql += ' AND reflection = ?';
+    sqlValues.push(researchByReflection);
+  }
+  if (req.query.skill) {
+    const researchBySkill = req.query.skill;
+    sql += ' AND skill = ?';
+    sqlValues.push(researchBySkill);
+  }
+  pool.query(sql, sqlValues, (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else if (results.length === 0) {
+      res.status(404).send('Aucun jeu ne correspond à ta recherche !');
+    } else if (results.length === 1) {
+      res.status(200).json(results[0]);
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 router.get('/rapides', (req, res) => {
   pool.query('SELECT * FROM game WHERE duration_min_in_minuts<16', (err, results) => {
     if (err) {
@@ -32,78 +106,6 @@ router.get('/rapides', (req, res) => {
 
 router.get('/longs', (req, res) => {
   pool.query('SELECT * FROM game WHERE duration_min_in_minuts>60', (err, results) => {
-    if (err) {
-      res.status(500).json({
-        error: err.message,
-      });
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-router.get('/cooperatifs', (req, res) => {
-  pool.query('SELECT * FROM game WHERE collaborative=1', (err, results) => {
-    if (err) {
-      res.status(500).json({
-        error: err.message,
-      });
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-router.get('/asymetriques', (req, res) => {
-  pool.query('SELECT * FROM game WHERE asymetric=1', (err, results) => {
-    if (err) {
-      res.status(500).json({
-        error: err.message,
-      });
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-router.get('/culture-generale', (req, res) => {
-  pool.query('SELECT * FROM game WHERE generalknowledge IS NOT NULL', (err, results) => {
-    if (err) {
-      res.status(500).json({
-        error: err.message,
-      });
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-router.get('/chance', (req, res) => {
-  pool.query('SELECT * FROM game WHERE (chance=2 OR chance=3)', (err, results) => {
-    if (err) {
-      res.status(500).json({
-        error: err.message,
-      });
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-router.get('/reflexion', (req, res) => {
-  pool.query('SELECT * FROM game WHERE (reflexion=2 OR reflexion=3)', (err, results) => {
-    if (err) {
-      res.status(500).json({
-        error: err.message,
-      });
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-router.get('/adresse', (req, res) => {
-  pool.query('SELECT * FROM game WHERE (skill=2 OR skill=3)', (err, results) => {
     if (err) {
       res.status(500).json({
         error: err.message,
