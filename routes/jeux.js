@@ -7,7 +7,7 @@ const pool = require('../pool');
 const urlApiJeux = '/api/jeux/';
 
 router.get('/', (req, res) => {
-  pool.query('SELECT * FROM game', (err, results) => {
+  pool.query('SELECT * FROM game ORDER BY id DESC', (err, results) => {
     if (err) {
       res.status(500).json({
         error: err.message,
@@ -185,7 +185,7 @@ router.delete('/:id', (req, res) => {
         error: err.message,
       });
     }
-    return res.status(204);
+    return res.sendStatus(200);
   });
 });
 
