@@ -4,6 +4,8 @@ const router = express.Router();
 
 const pool = require('../pool');
 
+const urlApiThemes = '/api/themes/';
+
 router.get('/', (req, res) => {
   pool.query('SELECT * FROM theme ORDER BY name ASC', (err, results) => {
     if (err) {
@@ -16,8 +18,25 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/:name', (req, res) => {
-  pool.query('SELECT * FROM theme WHERE name=?', [req.params.name], (err, results) => {
+router.get('/:id', (req, res) => {
+  pool.query('SELECT * FROM theme WHERE id=?', [req.params.id], (err, results) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+router.get('/:id/jeux', (req, res) => {
+  pool.query(`
+  SELECT DISTINCT g.* FROM game g 
+  JOIN game_theme g_t 
+  ON g.id=g_t.game_id 
+  JOIN theme t 
+  ON g_t.theme_id=?`, [req.params.id], (err, results) => {
     if (err) {
       res.status(500).json({
         error: err.message,
@@ -44,7 +63,7 @@ router.post('/', (req, res) => {
         }
         const insertedTrack = records[0];
         const host = req.get('host');
-        const location = `http://${host}${req.url}/${insertedTrack.id}`;
+        const location = `http://${host}${urlApiThemes}${insertedTrack.id}`;
         return res
           .status(201)
           .set('Location', location)
