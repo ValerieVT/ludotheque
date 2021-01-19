@@ -18,7 +18,6 @@ router.get('/', (req, res) => {
   });
 });
 
-// route de filtrage
 router.get('/search', (req, res) => {
   let sql = 'SELECT * FROM game WHERE 1=1';
   const sqlValues = [];
