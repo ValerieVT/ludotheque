@@ -63,4 +63,17 @@ router.post('/login', checkRequiredAuthFields, (req, res) => {
   });
 });
 
+router.get('/check', (req, res) => {
+  const { token } = req.cookies;
+  if (!token) {
+    return res.sendStatus(401);
+  };
+  return jwt.verify(token, privateKey, (err, payload) => {
+    if (err) {
+      return res.sendStatus(401);
+    };
+    return res.json(payload);
+  });
+});
+
 module.exports = router;
