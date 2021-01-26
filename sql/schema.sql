@@ -43,3 +43,8 @@ CONSTRAINT fk_theme_game_theme
 FOREIGN KEY (theme_id)
 REFERENCES theme(id)
 );
+CREATE TABLE IF NOT EXISTS admin (
+`id` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`identifier` VARCHAR(30) UNIQUE NOT NULL,
+`password` VARCHAR(60) NOT NULL
+);
