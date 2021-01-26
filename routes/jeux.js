@@ -186,7 +186,7 @@ router.delete('/:id', (req, res) => {
         error: err.message,
       });
     }
-    return res.sendStatus(200);
+    return res.sendStatus(204);
   });
 });
 
