@@ -1,11 +1,18 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 dotenv.config();
 
 const port = process.env.PORT || 5000;
 const app = express();
 const api = require('./routes');
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+  optionsSuccessStatus: 200,
+}));
 
 app.use(express.json());
 
