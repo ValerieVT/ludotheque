@@ -35,7 +35,7 @@ GET http://localhost:5000/api/jeux/reflexion
 GET http://localhost:5000/api/jeux/adresse
 
 ### GET 1 game
-GET http://localhost:5000/api/jeux/292
+GET http://localhost:5000/api/jeux/1
 
 ### PUT  modify 1 game from its id
 PUT http://localhost:5000/api/jeux/1
