@@ -42,7 +42,7 @@ router.post('/login', checkRequiredAuthFields, (req, res) => {
         });
       }
       const options = {
-        expiresIn: '3h',
+        expiresIn: 1000 * 60 * 60 * 3,
       };
       return jwt.sign(
         { id: admin.id },
@@ -54,7 +54,7 @@ router.post('/login', checkRequiredAuthFields, (req, res) => {
           }
           res.cookie('token', token, {
             httpOnly: true,
-            maxAge: '3h',
+            maxAge: 1000 * 60 * 60 * 3,
           });
           return res.json({ id: admin.id });
         },
@@ -67,11 +67,11 @@ router.get('/check', (req, res) => {
   const { token } = req.cookies;
   if (!token) {
     return res.sendStatus(401);
-  };
+  }
   return jwt.verify(token, privateKey, (err, payload) => {
     if (err) {
       return res.sendStatus(401);
-    };
+    }
     return res.json(payload);
   });
 });
