@@ -119,7 +119,7 @@ router.get('/:id', (req, res) => {
   const gameId = req.params.id;
 
   pool.query('SELECT * FROM game WHERE id=?', [gameId], (err, results) => {
-    pool.query('SELECT id, image, type FROM picture WHERE game_id=?', [gameId], (err2, results2) => {
+    pool.query('SELECT image FROM picture WHERE game_id=?', [gameId], (err2, results2) => {
       if (err || err2) {
         return res.status(500).json({
           error: err.message,
@@ -130,7 +130,10 @@ router.get('/:id', (req, res) => {
           error: 'Ce jeu n\' existe pas... Retourne à la case départ !',
         });
       }
-      return res.status(200).json({ game: results, pictures: results2 });
+      const arrayOfResults2 = [results2];
+      const arrayOfPictures = arrayOfResults2[0].map(item => item.image);
+      const allAboutTheGame = Object.assign(results[0], [arrayOfPictures]);
+      return res.status(200).send(allAboutTheGame);
     });
   });
 });
