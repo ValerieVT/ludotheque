@@ -116,14 +116,22 @@ router.get('/longs', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  pool.query('SELECT * FROM game WHERE id=?', [req.params.id], (err, results) => {
-    if (err) {
-      res.status(500).json({
-        error: err.message,
-      });
-    } else {
-      res.json(results[0]);
-    }
+  const gameId = req.params.id;
+
+  pool.query('SELECT * FROM game WHERE id=?', [gameId], (err, results) => {
+    pool.query('SELECT id, image, type FROM picture WHERE game_id=?', [gameId], (err2, results2) => {
+      if (err || err2) {
+        return res.status(500).json({
+          error: err.message,
+        });
+      }
+      if (results.length === 0) {
+        return res.status(500).json({
+          error: 'Ce jeu n\' existe pas... Retourne à la case départ !',
+        });
+      }
+      return res.status(200).json({ game: results, pictures: results2 });
+    });
   });
 });
 
