@@ -32,11 +32,13 @@ router.get('/:id', (req, res) => {
 
 router.get('/:id/jeux', (req, res) => {
   pool.query(`
-  SELECT DISTINCT g.* FROM game g 
-  JOIN game_theme g_t 
+  SELECT DISTINCT g.name, g.id, p.image, t.name AS selectionned_theme, t.id AS id_theme FROM game g
+  RIGHT JOIN picture p ON p.game_id=g.id
+  LEFT JOIN game_theme g_t 
   ON g.id=g_t.game_id 
-  JOIN theme t 
-  ON g_t.theme_id=?`, [req.params.id], (err, results) => {
+  LEFT JOIN theme t
+  ON g_t.theme_id=t.id
+  WHERE p.type="int" AND t.id=? GROUP BY g.name`, [req.params.id], (err, results) => {
     if (err) {
       res.status(500).json({
         error: err.message,
