@@ -7,7 +7,7 @@ const pool = require('../pool');
 const urlApiJeux = '/api/jeux/';
 
 router.get('/', (req, res) => {
-  pool.query('SELECT g.name, g.id, p.image FROM game g RIGHT JOIN picture p ON p.game_id=g.id WHERE type="int" GROUP BY g.name', (err, results) => {
+  pool.query('SELECT g.name, g.id, p.image FROM game g RIGHT JOIN picture p ON p.game_id=g.id WHERE p.type="int" GROUP BY g.name', (err, results) => {
     if (err) {
       res.status(500).json({
         error: err.message,
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/search', (req, res) => {
-  let sql = 'SELECT * FROM game WHERE 1=1';
+  let sql = 'SELECT g.name, g.id, p.image FROM game g RIGHT JOIN picture p ON p.game_id=g.id WHERE p.type="int"';
   const sqlValues = [];
   if (req.query.name) {
     const searchByName = `%${req.query.name}%`;
@@ -27,56 +27,58 @@ router.get('/search', (req, res) => {
     sqlValues.push(searchByName);
   }
   if (req.query.collaborative) {
-    const researchByCoop = req.query.collaborative;
+    const researchByCoop = Number(req.query.collaborative);
     sql += ' AND collaborative = ?';
     sqlValues.push(researchByCoop);
   }
   if (req.query.asymetric) {
-    const researchByAsymetric = req.query.asymetric;
+    const researchByAsymetric = Number(req.query.asymetric);
     sql += ' AND asymetric = ?';
     sqlValues.push(researchByAsymetric);
   }
-  if (req.query.duration_min_in_min) {
-    const researchByDuration = req.query.duration_min_in_min;
-    sql += ' AND duration_min_in_min = ?';
+  if (req.query.duration_min_in_minuts) {
+    const researchByDuration = Number(req.query.duration_min_in_minuts);
+    sql += ' AND duration_min_in_minuts = ?';
     sqlValues.push(researchByDuration);
   }
   if (req.query.player_nbmin) {
-    const researchByPlayerMin = req.query.player_nbmin;
+    const researchByPlayerMin = Number(req.query.player_nbmin);
     sql += ' AND player_nbmin = ?';
     sqlValues.push(researchByPlayerMin);
   }
   if (req.query.player_nbmax) {
-    const researchByPlayerMax = req.query.player_nbmax;
+    const researchByPlayerMax = Number(req.query.player_nbmax);
     sql += ' AND player_nbmax = ?';
     sqlValues.push(researchByPlayerMax);
   }
   if (req.query.gamerule_difficulty) {
-    const researchByGameRule = req.query.gamerule_difficulty;
+    const researchByGameRule = Number(req.query.gamerule_difficulty);
     sql += ' AND gamerule_difficulty = ?';
     sqlValues.push(researchByGameRule);
   }
   if (req.query.generalknowledge) {
-    const researchByGenKnowledge = req.query.generalknowledge;
+    const researchByGenKnowledge = Number(req.query.generalknowledge);
     sql += ' AND generalknowledge = ?';
     sqlValues.push(researchByGenKnowledge);
   }
   if (req.query.chance) {
-    const researchByChance = req.query.chance;
+    const researchByChance = Number(req.query.chance);
     sql += ' AND chance = ?';
     sqlValues.push(researchByChance);
   }
   if (req.query.reflection) {
-    const researchByReflection = req.query.reflection;
-    sql += ' AND reflection = ?';
+    const researchByReflection = Number(req.query.reflection);
+    sql += ' AND reflexion = ?';
     sqlValues.push(researchByReflection);
   }
   if (req.query.skill) {
-    const researchBySkill = req.query.skill;
+    const researchBySkill = Number(req.query.skill);
     sql += ' AND skill = ?';
     sqlValues.push(researchBySkill);
   }
+  sql += ' GROUP BY g.name';
   pool.query(sql, sqlValues, (err, results) => {
+    console.log(sql, sqlValues);
     if (err) {
       res.status(500).json({
         error: err.message,
