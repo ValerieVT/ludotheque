@@ -63,6 +63,16 @@ router.post('/login', checkRequiredAuthFields, (req, res) => {
   });
 });
 
+router.post('/logout', (req, res, error) => {
+  if (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
+  res.clearCookie('token');
+  return res.sendStatus(204);
+});
+
 router.get('/check', (req, res) => {
   const { token } = req.cookies;
   if (!token) {
