@@ -127,13 +127,13 @@ router.get('/:id', (req, res) => {
           error: err.message,
         });
       }
-      if (results.length === 0) {
+      if (results2.length === 0) {
         return res.status(500).json({
-          error: 'Ce jeu n\' existe pas... Retourne à la case départ !',
+          error: 'Ce jeu n\'existe pas... Retourne à la case départ !',
         });
       }
       const arrayOfResults2 = [results2];
-      const arrayOfPictures = arrayOfResults2[0].map(item => item.image);
+      const arrayOfPictures = arrayOfResults2[0].map((item) => item.image);
       const allAboutTheGame = Object.assign(results[0], [arrayOfPictures]);
       return res.status(200).send(allAboutTheGame);
     });
