@@ -40,12 +40,15 @@ router.get('/:id/jeux', (req, res) => {
   ON g_t.theme_id=t.id
   WHERE p.type="int" AND t.id=? GROUP BY g.name`, [req.params.id], (err, results) => {
     if (err) {
-      res.status(500).json({
+      return res.status(500).json({
         error: err.message,
       });
-    } else {
-      res.json(results);
     }
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Aucun jeu ne correspond à ta recherche !' });
+    }
+
+    return res.json(results);
   });
 });
 
