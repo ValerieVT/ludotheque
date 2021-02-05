@@ -77,19 +77,16 @@ router.get('/search', (req, res) => {
     sqlValues.push(researchBySkill);
   }
   sql += ' GROUP BY g.name';
-  pool.query(sql, sqlValues, (err, results) => {
-    console.log(sql, sqlValues);
-    if (err) {
-      res.status(500).json({
-        error: err.message,
+  return pool.query(sql, sqlValues, (error, results) => {
+    if (error) {
+      return res.status(500).json({
+        error: error.message,
       });
-    } else if (results.length === 0) {
-      res.status(404).send('Aucun jeu ne correspond à ta recherche !');
-    } else if (results.length === 1) {
-      res.status(200).json(results[0]);
-    } else {
-      res.status(200).json(results);
     }
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Aucun jeu ne correspond à ta recherche !' });
+    }
+    return res.status(200).json(results);
   });
 });
 
