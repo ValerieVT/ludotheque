@@ -130,8 +130,7 @@ router.get('/:id', (req, res) => {
         });
       }
       const arrayOfResults2 = [results2];
-      const arrayOfPictures = arrayOfResults2[0].map((item) => item.image);
-      const allAboutTheGame = Object.assign(results[0], [arrayOfPictures]);
+      const allAboutTheGame = Object.assign(results[0], arrayOfResults2);
       return res.status(200).send(allAboutTheGame);
     });
   });
