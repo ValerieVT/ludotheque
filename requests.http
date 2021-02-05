@@ -7,6 +7,9 @@ Content-Type: application/json
   "password": ""
 }
 
+### logout
+POST http://localhost:5000/api/auth/logout
+
 ### GET all games
 GET http://localhost:5000/api/jeux
 
