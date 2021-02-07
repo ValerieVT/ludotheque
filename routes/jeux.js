@@ -214,7 +214,7 @@ router.get('/:id/pictures', (req, res) => {
     if (resGame.length === 0) {
       return res.status(402).json({ error: 'Jeu non trouvé !' });
     }
-    pool.query('SELECT * FROM picture WHERE game_id=?', [req.params.id], (errPicture, resPicture) => {
+    return pool.query('SELECT * FROM picture WHERE game_id=?', [req.params.id], (errPicture, resPicture) => {
       if (errPicture) {
         return res.status(500).json({
           error: errPicture.message,
