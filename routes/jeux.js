@@ -95,6 +95,19 @@ router.get('/search', (req, res) => {
   });
 });
 
+router.get('/random', (req, res) => {
+  pool.query('SELECT DISTINCT g.id FROM game g LEFT JOIN picture p ON g.id = p.game_id WHERE p.type="int"', (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        error: err.message,
+      });
+    }
+    let resultat = Math.floor(Math.random() * Math.floor(results.length));
+    if (resultat === 0) resultat = 1;
+    return res.json(results[resultat]);
+  });
+});
+
 router.get('/rapides', (req, res) => {
   pool.query('SELECT * FROM game WHERE duration_min_in_minuts<16', (err, results) => {
     if (err) {
