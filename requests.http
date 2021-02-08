@@ -13,6 +13,9 @@ POST http://localhost:5000/api/auth/logout
 ### GET all games
 GET http://localhost:5000/api/jeux
 
+### GET 1 random game
+GET http://localhost:5000/api/jeux/random
+
 ### GET games : short
 GET http://localhost:5000/api/jeux/rapides
 
