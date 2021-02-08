@@ -38,12 +38,12 @@ router.get('/search', (req, res) => {
   }
   if (req.query.duration_max) {
     const researchByDuration = Number(req.query.duration_max);
-    sql += ' AND duration_min_in_minuts < ?';
+    sql += ' AND duration_min_in_minuts <= ?';
     sqlValues.push(researchByDuration);
   }
   if (req.query.duration_min) {
     const researchByDuration = Number(req.query.duration_min);
-    sql += ' AND duration_min_in_minuts > ?';
+    sql += ' AND duration_min_in_minuts >= ?';
     sqlValues.push(researchByDuration);
   }
   if (req.query.player_nbmin) {
