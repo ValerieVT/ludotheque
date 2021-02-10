@@ -102,8 +102,7 @@ router.get('/random', (req, res) => {
         error: err.message,
       });
     }
-    let resultat = Math.floor(Math.random() * Math.floor(results.length));
-    if (resultat === 0) resultat = 1;
+    const resultat = Math.ceil(Math.random() * Math.floor(results.length));
     return res.json(results[resultat]);
   });
 });
