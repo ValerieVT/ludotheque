@@ -3,12 +3,15 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "identifier": "",
-  "password": ""
+  "identifier": "test",
+  "password": "test"
 }
 
 ### logout
 POST http://localhost:5000/api/auth/logout
+
+### check
+POST http://localhost:5000/api/auth/check
 
 ### GET all games
 GET http://localhost:5000/api/jeux
