@@ -11,7 +11,7 @@ Content-Type: application/json
 POST http://localhost:5000/api/auth/logout
 
 ### check
-POST http://localhost:5000/api/auth/check
+GET http://localhost:5000/api/auth/check
 
 ### GET all games
 GET http://localhost:5000/api/jeux
@@ -57,6 +57,9 @@ GET http://localhost:5000/api/jeux
 
 ### GET all themes
 GET http://localhost:5000/api/themes
+
+### GET all games about 1 theme
+GET http://localhost:5000/api/themes/5/jeux
 
 ### POST 1 theme
 GET http://localhost:5000/api/themes
