@@ -63,27 +63,32 @@ router.post('/login', checkRequiredAuthFields, (req, res) => {
   });
 });
 
-router.post('/logout', (req, res, error) => {
-  if (error) {
+router.post('/logout', async (req, res) => {
+  try {
+    res.clearCookie('token');
+    return res.sendStatus(204);
+  } catch (error) {
     return res.status(500).json({
       error: error.message,
     });
   }
-  res.clearCookie('token');
-  return res.sendStatus(204);
 });
 
-router.get('/check', (req, res) => {
+router.get('/check', async (req, res) => {
   const { token } = req.cookies;
-  if (!token) {
-    return res.sendStatus(401);
+  if (!token || token.length === 0) {
+    return res.status(401).json({
+      error: 'Tu n\'as pas la bonne carte pour accéder à cette page !',
+    });
   }
-  return jwt.verify(token, privateKey, (err, payload) => {
-    if (err) {
-      return res.sendStatus(401);
-    }
-    return res.json(payload);
-  });
+  try {
+    await jwt.verify(token, privateKey);
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
 });
 
 module.exports = router;
