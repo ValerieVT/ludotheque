@@ -33,9 +33,9 @@ router.post('/login', checkRequiredAuthFields, (req, res) => {
         error: 'Qui es-tu ? Essaie encore !',
       });
     }
-    const admin = arrayOfAdmin[0];
+    const adminLogged = arrayOfAdmin[0];
 
-    return bcrypt.compare(password, admin.hash, (errBcrypt, passwordsMatch) => {
+    return bcrypt.compare(password, adminLogged.hash, (errBcrypt, passwordsMatch) => {
       if (errBcrypt) {
         return res.status(500).json({ error: 'Carte événement : "Impossible de te connecter !"' });
       }
