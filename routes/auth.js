@@ -2,9 +2,12 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const pool = require('../pool');
+const check = require('./check');
 
 const privateKey = process.env.JWT_SECRET;
 const router = express.Router();
+
+router.use('/check', check);
 
 const checkRequiredAuthFields = (req, res, next) => {
   const { identifier, password } = req.body;
@@ -67,23 +70,6 @@ router.post('/logout', async (req, res) => {
   try {
     res.clearCookie('token');
     return res.sendStatus(204);
-  } catch (error) {
-    return res.status(500).json({
-      error: error.message,
-    });
-  }
-});
-
-router.get('/check', async (req, res) => {
-  const { token } = req.cookies;
-  if (!token || token.length === 0) {
-    return res.status(401).json({
-      error: 'Tu n\'as pas la bonne carte pour accéder à cette page !',
-    });
-  }
-  try {
-    await jwt.verify(token, privateKey);
-    return res.sendStatus(200);
   } catch (error) {
     return res.status(500).json({
       error: error.message,
