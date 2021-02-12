@@ -2,12 +2,12 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const pool = require('../pool');
-const check = require('./check');
+const admin = require('./admin');
 
 const privateKey = process.env.JWT_SECRET;
 const router = express.Router();
 
-router.use('/check', check);
+router.use('/admin', admin);
 
 const checkRequiredAuthFields = (req, res, next) => {
   const { identifier, password } = req.body;
