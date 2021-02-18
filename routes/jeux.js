@@ -56,6 +56,11 @@ router.get('/search', (req, res) => {
     sql += ' AND player_nbmax = ?';
     sqlValues.push(researchByPlayerMax);
   }
+  if (req.query.player_nb) {
+    const researchByPlayer = Number(req.query.player_nb);
+    sql += ' AND player_nbmin <= ? AND player_nbmax >= ?';
+    sqlValues.push(researchByPlayer, researchByPlayer);
+  }
   if (req.query.gamerule_difficulty) {
     const researchByGameRule = Number(req.query.gamerule_difficulty);
     sql += ' AND gamerule_difficulty = ?';
