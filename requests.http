@@ -13,6 +13,9 @@ POST http://localhost:5000/api/auth/logout
 ### check
 GET http://localhost:5000/api/auth/check
 
+### GET all games without picture
+GET http://localhost:5000/api/auth/admin/jeux/sans-photo
+
 ### GET all games
 GET http://localhost:5000/api/jeux
 
