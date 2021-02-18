@@ -26,4 +26,21 @@ router.get('/', checkIfAuth, async (req, res) => {
   res.sendStatus(200);
 });
 
+router.get('/jeux/sans-photo', (req, res) => {
+  pool.query(`
+    SELECT g.name, g.id 
+    FROM game g 
+    WHERE NOT EXISTS 
+    (SELECT * FROM picture p WHERE p.type="int" AND p.game_id=g.id)
+    ORDER BY g.name`, (error, results) => {
+    if (error) {
+      res.status(500).json({
+        error: error.message,
+      });
+    } else {
+      res.json(results);
+    }
+  })
+});
+
 module.exports = router;
