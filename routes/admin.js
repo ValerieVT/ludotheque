@@ -26,6 +26,28 @@ router.get('/', checkIfAuth, async (req, res) => {
   res.sendStatus(200);
 });
 
+router.post('/themes/:name', async (req, res) => {
+  try {
+    pool.query('INSERT INTO theme (name) VALUES(?)', [req.params.name], (error, results) => {
+      if (error) {
+        if (error.code === 'ER_DUP_ENTRY') {
+          return res.status(403).json({
+            error: 'Ce thème existe déjà !',
+          });
+        }
+        return res.status(500).json({
+          error: error.message,
+        });
+      }
+      return res.status(201).send('Thème ajouté !');
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
+});
+
 router.get('/jeux/sans-photo', (req, res) => {
   pool.query(`
     SELECT g.name, g.id 
