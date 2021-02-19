@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS game (
 `gamerule_difficulty` ENUM('1','2','3') NULL,
 `generalknowledge` ENUM('0','1','2','3') NULL,
 `chance` ENUM('0','1','2','3') NULL,
-`reflexion` ENUM('0','1','2','3') NULL,
+`reflection` ENUM('0','1','2','3') NULL,
 `skill` ENUM('0','1','2','3') NULL,
 `game_id` INTEGER NULL,
 CONSTRAINT fk_game_game
