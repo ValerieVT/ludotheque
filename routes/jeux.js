@@ -67,22 +67,22 @@ router.get('/search', (req, res) => {
     sqlValues.push(researchByGameRule);
   }
   if (req.query.generalknowledge) {
-    const researchByGenKnowledge = Number(req.query.generalknowledge);
+    const researchByGenKnowledge = req.query.generalknowledge;
     sql += ' AND generalknowledge = ?';
     sqlValues.push(researchByGenKnowledge);
   }
   if (req.query.chance) {
-    const researchByChance = Number(req.query.chance);
+    const researchByChance = req.query.chance;
     sql += ' AND chance = ?';
     sqlValues.push(researchByChance);
   }
   if (req.query.reflection) {
-    const researchByReflection = Number(req.query.reflection);
-    sql += ' AND reflexion = ?';
+    const researchByReflection = req.query.reflection;
+    sql += ' AND reflection = ?';
     sqlValues.push(researchByReflection);
   }
   if (req.query.skill) {
-    const researchBySkill = Number(req.query.skill);
+    const researchBySkill = req.query.skill;
     sql += ' AND skill = ?';
     sqlValues.push(researchBySkill);
   }
