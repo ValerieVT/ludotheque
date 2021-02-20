@@ -43,7 +43,7 @@ GET http://localhost:5000/api/jeux/culture-generale
 ### GET games that necessites chance
 GET http://localhost:5000/api/jeux/chance
 
-### GET games that necessites reflexion
+### GET games that necessites reflection
 GET http://localhost:5000/api/jeux/reflexion
 
 ### GET games that necessites skill
