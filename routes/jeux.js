@@ -7,7 +7,7 @@ const pool = require('../pool');
 const urlApiJeux = '/api/jeux/';
 
 router.get('/', (req, res) => {
-  pool.query('SELECT g.name, g.id, p.image FROM game g RIGHT JOIN picture p ON p.game_id=g.id WHERE p.type="int" GROUP BY g.name', (err, results) => {
+  pool.query('SELECT g.name, g.id, p.image FROM game g RIGHT JOIN picture p ON p.game_id=g.id WHERE p.type="int" GROUP BY g.name ORDER BY g.name', (err, results) => {
     if (err) {
       res.status(500).json({
         error: err.message,
