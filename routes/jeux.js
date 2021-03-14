@@ -36,11 +36,6 @@ router.get('/search', (req, res) => {
     sql += ' AND asymetric = ?';
     sqlValues.push(researchByAsymetric);
   }
-  if (req.query.duration_max) {
-    const researchByDuration = Number(req.query.duration_max);
-    sql += ' AND duration_min_in_minuts <= ?';
-    sqlValues.push(researchByDuration);
-  }
   if (req.query.duration_min) {
     const researchByDuration = Number(req.query.duration_min);
     sql += ' AND duration_min_in_minuts >= ?';
@@ -60,6 +55,16 @@ router.get('/search', (req, res) => {
     const researchByPlayer = Number(req.query.player_nb);
     sql += ' AND player_nbmin <= ? AND player_nbmax >= ?';
     sqlValues.push(researchByPlayer, researchByPlayer);
+  }
+  if (req.query.player_agemin) {
+    const researchByAgeMin = Number(req.query.player_agemin);
+    sql += ' AND player_agemin < ?';
+    sqlValues.push(researchByAgeMin);
+  }
+  if (req.query.player_agemax) {
+    const researchByAgeMax = Number(req.query.player_agemax);
+    sql += ' AND player_agemax > ?';
+    sqlValues.push(researchByAgeMax);
   }
   if (req.query.gamerule_difficulty) {
     const researchByGameRule = Number(req.query.gamerule_difficulty);
@@ -182,30 +187,6 @@ router.put('/:id', (req, res) => {
         .status(201)
         .set('Location', location)
         .json(modifiedTrack);
-    });
-  });
-});
-
-router.post('/', (req, res) => {
-  pool.query('INSERT INTO game SET ?', [req.body], (err, results) => {
-    if (err) {
-      return res.status(500).json({
-        error: err.message,
-      });
-    }
-    return pool.query('SELECT * FROM game WHERE id = ?', results.insertId, (err2, results2) => {
-      if (err2) {
-        return res.status(500).json({
-          error: err2.message,
-          sql: err2.sql,
-        });
-      }
-      const host = req.get('host');
-      const location = `http://${host}${urlApiJeux}${results.insertId}`;
-      return res
-        .status(201)
-        .set('Location', location)
-        .json(results2);
     });
   });
 });
