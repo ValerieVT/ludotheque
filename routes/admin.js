@@ -91,17 +91,20 @@ router.post('/jeux', (req, res) => {
 //   }
 // });
 
-router.get('/jeux/search', async (req, res) => {
-  try {
-    const searchForName = `%${req.query.name}%`;
-    const sql = 'SELECT * FROM game WHERE name LIKE ?';
-    await pool.query(sql, searchForName);
-    return res.sendStatus(200);
-  } catch (error) {
-    return res.status(500).json({
-      error: error.message,
-    });
-  }
+router.get('/jeux/search', (req, res) => {
+  const searchForName = `%${req.query.name}%`;
+  const sql = 'SELECT name, id FROM game WHERE name LIKE ?';
+  return pool.query(sql, searchForName, (error, results) => {
+    if (error) {
+      if (results.length === 0) {
+        return res.status(404).json({ error: 'Aucun jeu ne correspond à ta recherche !' });
+      }
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+    return res.json(results);
+  });
 });
 
 router.get('/jeux/sans-photo', (req, res) => {
@@ -118,7 +121,7 @@ router.get('/jeux/sans-photo', (req, res) => {
     } else {
       res.json(results);
     }
-  })
+  });
 });
 
 module.exports = router;
