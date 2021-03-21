@@ -13,6 +13,9 @@ POST http://localhost:5000/api/auth/logout
 ### check
 GET http://localhost:5000/api/auth/check
 
+### GET list of games by name research
+GET http://localhost:5000/api/auth/admin/jeux/search?name=chasse
+
 ### GET all games without picture
 GET http://localhost:5000/api/auth/admin/jeux/sans-photo
 
@@ -59,7 +62,17 @@ PUT http://localhost:5000/api/jeux/1
 DELETE http://localhost:5000/api/jeux/294
 
 ### POST 1 game
-GET http://localhost:5000/api/jeux
+POST http://localhost:5000/api/auth/admin/jeux
+Content-Type: application/json
+
+{
+"name":"jeu de test",
+"duration_min_in_minuts":90,
+"player_nbmin":1,
+"player_nbmax":2,
+"collaborative":0,
+"asymetric":0
+}
 
 ### GET all themes
 GET http://localhost:5000/api/themes
