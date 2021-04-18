@@ -38,7 +38,7 @@ router.get('/:id/jeux', (req, res) => {
   ON g.id=g_t.game_id 
   LEFT JOIN theme t
   ON g_t.theme_id=t.id
-  WHERE p.type="int" AND t.id=? GROUP BY g.name`, [req.params.id], (err, results) => {
+  WHERE p.type="int" AND t.id=? GROUP BY g.name ORDER BY g.name`, [req.params.id], (err, results) => {
     if (err) {
       return res.status(500).json({
         error: err.message,
