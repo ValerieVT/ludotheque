@@ -55,26 +55,25 @@ router.get('/:id/jeux', (req, res) => {
 router.post('/', (req, res) => {
   pool.query('INSERT INTO theme (name) VALUES (?)', [req.body.name], (err, results) => {
     if (err) {
-      res.status(500).json({
+      return res.status(500).json({
         error: err.message,
       });
-    } else {
-      return pool.query('SELECT * FROM theme WHERE id = ?', results.insertId, (err2, records) => {
-        if (err2) {
-          return res.status(500).json({
-            error: err2.message,
-            sql: err2.sql,
-          });
-        }
-        const insertedTrack = records[0];
-        const host = req.get('host');
-        const location = `http://${host}${urlApiThemes}${insertedTrack.id}`;
-        return res
-          .status(201)
-          .set('Location', location)
-          .json(insertedTrack);
-      });
     }
+    return pool.query('SELECT * FROM theme WHERE id = ?', results.insertId, (err2, records) => {
+      if (err2) {
+        return res.status(500).json({
+          error: err2.message,
+          sql: err2.sql,
+        });
+      }
+      const insertedTrack = records[0];
+      const host = req.get('host');
+      const location = `http://${host}${urlApiThemes}${insertedTrack.id}`;
+      return res
+        .status(201)
+        .set('Location', location)
+        .json(insertedTrack);
+    });
   });
 });
 
