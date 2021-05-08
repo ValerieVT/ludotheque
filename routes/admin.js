@@ -30,10 +30,6 @@ const checkIfAuth = async (req, res, next) => {
   }
 };
 
-router.get('/', checkIfAuth, async (req, res) => {
-  res.sendStatus(200);
-});
-
 router.post('/themes/:name', async (req, res) => {
   try {
     pool.query('INSERT INTO theme (name) VALUES(?)', [req.params.name], (error, results) => {
@@ -91,6 +87,20 @@ router.post('/jeux', (req, res) => {
 //   }
 // });
 
+router.put('/jeux/:id', (req, res) => {
+  pool.query(`
+  UPDATE game SET ? 
+  WHERE id=?
+  `, [req.body, req.params.id], (err) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    }
+    return res.sendStatus(201);
+  });
+});
+
 router.get('/jeux/search', (req, res) => {
   const searchForName = `%${req.query.name}%`;
   const sql = 'SELECT name, id FROM game WHERE name LIKE ?';
@@ -121,6 +131,28 @@ router.get('/jeux/sans-photo', (req, res) => {
     } else {
       res.json(results);
     }
+  });
+});
+
+router.get('/', checkIfAuth, async (req, res) => {
+  res.sendStatus(200);
+});
+
+router.get('/jeux/:id', (req, res) => {
+  const gameId = req.params.id;
+
+  pool.query('SELECT * FROM game WHERE id=?', [gameId], (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        error: err.message,
+      });
+    }
+    if (results.length === 0) {
+      return res.status(500).json({
+        error: 'Ce jeu n\'existe pas... Retourne à la case départ !',
+      });
+    }
+    return res.status(200).send(results[0]);
   });
 });
 
